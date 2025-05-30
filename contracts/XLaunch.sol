@@ -7,6 +7,7 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import "./XToken.sol";
 import "./interface/IPancake.sol";
+import "hardhat/console.sol";
 
 contract XLaunch is
     Initializable,
@@ -118,11 +119,11 @@ contract XLaunch is
 
         isEnded = true;
         token.approve(ammRouter, poolSupply);
-        IPancakeRouter(ammRouter).addLiquidityETH{value: totalDeposits}(
+        IPancakeRouter(ammRouter).addLiquidityETH{value: hardCap}(
             address(token),
             poolSupply,
             poolSupply,
-            totalDeposits,
+            hardCap,
             0x0000000000000000000000000000000000000000, // transfer to zero address
             type(uint256).max
         );
@@ -163,6 +164,7 @@ contract XLaunch is
         if (amount > address(this).balance) {
             amount = address(this).balance;
         }
-        payable(to).transfer(amount);
+        (bool sent, ) = payable(to).call{value: amount}("");
+        require(sent, "Failed to send Ether");
     }
 }
