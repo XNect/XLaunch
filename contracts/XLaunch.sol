@@ -41,7 +41,7 @@ contract XLaunch is
 
     event Deposit(address indexed user, uint256 amount);
     event Claim(address indexed user, uint256 tokenAmount, uint256 refund);
-    event Ended(address indexed poolAddress, uint256 totalDeposits);
+    event Ended(address indexed poolAddress, uint256 addLpAmount);
     event OwnerClaimed(address indexed belongTo, uint256 amount);
 
     function initialize(
@@ -130,7 +130,7 @@ contract XLaunch is
         );
         poolAddress = IPancakeFactory(ammFactory).getPair(address(token), WETH);
         poolCreatedTimestamp = block.timestamp;
-        emit Ended(poolAddress, totalDeposits);
+        emit Ended(poolAddress, addLpAmount);
     }
 
     function getClaimable(
