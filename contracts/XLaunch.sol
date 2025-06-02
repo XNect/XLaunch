@@ -118,12 +118,13 @@ contract XLaunch is
         require(totalDeposits > 0, "No ETH to add liquidity");
 
         isEnded = true;
+        uint256 addLpAmount = totalDeposits > hardCap ? hardCap : totalDeposits;
         token.approve(ammRouter, poolSupply);
-        IPancakeRouter(ammRouter).addLiquidityETH{value: hardCap}(
+        IPancakeRouter(ammRouter).addLiquidityETH{value: addLpAmount}(
             address(token),
             poolSupply,
             poolSupply,
-            hardCap,
+            addLpAmount,
             0x0000000000000000000000000000000000000000, // transfer to zero address
             type(uint256).max
         );
