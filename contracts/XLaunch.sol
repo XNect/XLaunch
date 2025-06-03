@@ -7,7 +7,6 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import "./XToken.sol";
 import "./interface/IPancake.sol";
-import "hardhat/console.sol";
 
 contract XLaunch is
     Initializable,
